@@ -15,14 +15,8 @@ export const Container = styled.div<ContainerProps>`
   padding: 15px 10px;
   width: 100%;
 
-  border: 1px solid;
-  border-image-slice: 1;
-  border-image-source: linear-gradient(
-    90.59deg,
-    #003458 8.07%,
-    #f01159 104.73%
-  );
-
+  border: 1px solid #003458;
+  border-radius: 5px;
   color: #003458;
 
   margin: 10px 0;
@@ -41,13 +35,6 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFocused &&
     css`
-      border: 1px solid;
-      border-image-slice: 1;
-      border-image-source: linear-gradient(
-        90.59deg,
-        #003458 8.07%,
-        #f01159 104.73%
-      );
       svg {
         color: #003458;
       }
@@ -56,13 +43,6 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFilled &&
     css`
-      border: 1px solid;
-      border-image-slice: 1;
-      border-image-source: linear-gradient(
-        90.59deg,
-        #003458 8.07%,
-        #f01159 104.73%
-      );
       svg {
         color: #003458;
       }
@@ -88,4 +68,9 @@ export const Error = styled(Tooltip)`
   svg {
     margin: 0;
   }
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

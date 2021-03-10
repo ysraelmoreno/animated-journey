@@ -9,7 +9,7 @@ interface ToastContainerProps {
   messages: ToastMessage[];
 }
 
-function ToastContainer({ messages }: ToastContainerProps) {
+function ToastContainer({ messages }: ToastContainerProps): JSX.Element {
   const messagesWithTransitions = useTransition(
     messages,
     message => message.id,

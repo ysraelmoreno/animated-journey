@@ -1,56 +1,56 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { FiUser, FiMail, FiLock, FiShield } from 'react-icons/fi';
+import { FiMail } from 'react-icons/fi';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
+import api from 'services/api';
 import { Container, Content, AnimationContainer, Background } from './styles';
 
-import api from '../../services/api';
 import { useToast } from '../../hooks/Toast';
 import getValidationErrors from '../../utils/getValidationErrors';
-
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-interface SignUpFormData {
-  name: string;
+interface ForgotPasswordFormData {
   email: string;
-  password: string;
 }
 
-function SignUp(): JSX.Element {
+function ForgotPassword(): JSX.Element {
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
+
   const { addToast } = useToast();
-  const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
+    async (data: ForgotPasswordFormData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
           email: Yup.string()
             .email('Digite um email válido')
             .required('Email obrigatório'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
-
-        history.push('/');
+        await api.post('/password/forgot', {
+          email: data.email,
+        });
 
         addToast({
           type: 'success',
-          title: 'Conta criada com sucesso',
-          description: 'Você já pode fazer seu login na One!',
+          title: 'Pedido de recuperação de senha realizado',
+          description:
+            'O próximo passo é ir ao seu email e entrar no link para que você altere sua senha.',
         });
+
+        // history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -61,14 +61,17 @@ function SignUp(): JSX.Element {
         }
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
+          title: 'Erro na recuperação de senha',
           description:
-            'Ocorreu um erro ao realizar o seu cadastro, tente novamente.',
+            'Ocorreu um erro ao fazer o seu pedido de recuperação de senha. Tente novamente mais tarde',
         });
+      } finally {
+        setLoading(false);
       }
     },
-    [history, addToast],
+    [addToast],
   );
+
   return (
     <>
       <Container>
@@ -82,31 +85,20 @@ function SignUp(): JSX.Element {
               sodales felis viverra quisque hac elementum sed tortor praesent.
             </p>
             <Form ref={formRef} onSubmit={handleSubmit}>
-              <h4>Faça seu cadastro</h4>
-              <Input
-                icon={FiUser}
-                name="name"
-                type="text"
-                placeholder="Nome completo"
-              />
+              <h4>Recupere sua senha</h4>
+
               <Input
                 icon={FiMail}
                 name="email"
-                type="email"
+                type="text"
                 placeholder="Email"
               />
-              <Input icon={FiShield} name="cpf" type="text" placeholder="CPF" />
-              <Input
-                icon={FiLock}
-                name="password"
-                type="password"
-                placeholder="Senha"
-              />
 
-              <Button type="submit">Entrar</Button>
+              <Button loading={loading} type="submit">
+                Recuperar
+              </Button>
               <p>
-                Já é um membro?
-                <Link to="/"> Faça seu login</Link>
+                <Link to="/"> Voltar ao login</Link>
               </p>
             </Form>
           </AnimationContainer>
@@ -116,4 +108,4 @@ function SignUp(): JSX.Element {
   );
 }
 
-export default SignUp;
+export default ForgotPassword;

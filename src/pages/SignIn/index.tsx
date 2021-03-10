@@ -18,7 +18,7 @@ interface SignInFormData {
   password: string;
 }
 
-function SignIn() {
+function SignIn(): JSX.Element {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
@@ -90,7 +90,7 @@ function SignIn() {
                 type="password"
                 placeholder="Senha"
               />
-
+              <Link to="/forgotpassword">Esqueci minha senha </Link>
               <Button type="submit">Entrar</Button>
               <p>
                 Ainda não é um membro?

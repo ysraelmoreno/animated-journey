@@ -5,15 +5,14 @@ export const Container = styled.button`
   background-color: #f01159;
 
   width: 100%;
-  margin-bottom: 20px;
 
   font-weight: 600;
   color: white;
 
   height: 50px;
-  padding: 0 20px;
 
   border: none;
+  border-radius: 5px;
 
   transition: all 0.2s ease-in-out;
 

@@ -1,20 +1,9 @@
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 interface BackgroundProps {
   background: string;
 }
-
-export const Head = styled.div`
-  margin-top: 10px;
-  margin-bottom: 20px;
-  h2 {
-    color: #003458;
-
-    strong {
-      color: #f01159;
-    }
-  }
-`;
 
 export const Container = styled.div`
   display: flex;
@@ -28,22 +17,31 @@ export const Container = styled.div`
 export const Content = styled.main`
   display: flex;
   flex-direction: column;
+
   width: 100%;
   padding: 30px;
 `;
 
 export const ListOfCourses = styled.div`
   width: 100%;
-  max-width: 790px;
   min-width: 350px;
   margin-right: 20px;
+
+  h3 {
+    color: #003458;
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  strong {
+    color: #f01159;
+  }
 `;
 
 export const InfoUser = styled.aside`
   width: 100%;
 
   height: 250px;
-  margin-top: 85px;
+  margin-top: 30px;
   padding: 30px;
 
   background: transparent;
@@ -161,4 +159,30 @@ export const Teacher = styled.div`
   }
 `;
 
-export const SideBar = styled.div``;
+export const Options = styled.section`
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  margin: 10px 0;
+
+  h2 {
+    color: #003458;
+
+    strong {
+      color: #f01159;
+    }
+  }
+
+  a {
+    background-color: transparent;
+    color: #003458;
+    font-size: 19px;
+    width: 40px;
+
+    &:hover {
+      background-color: transparent;
+      color: ${shade(0.2, '#003458')};
+    }
+  }
+`;

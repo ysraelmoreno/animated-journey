@@ -9,14 +9,28 @@ import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import { Container, Error } from './styles';
+import { Container, Error, InputContainer } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  icon: React.ComponentType<IconBaseProps>;
+  icon?: React.ComponentType<IconBaseProps>;
+  containerStyles?: object;
+  label?: string;
 }
 
-function Input({ name, icon: Icon, ...rest }: InputProps) {
+Input.defaultProps = {
+  icon: '',
+  label: '',
+  containerStyles: {},
+};
+
+function Input({
+  name,
+  containerStyles,
+  icon: Icon,
+  label,
+  ...rest
+}: InputProps): JSX.Element {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -38,21 +52,29 @@ function Input({ name, icon: Icon, ...rest }: InputProps) {
   }, []);
 
   return (
-    <Container isErrored={!!error} isFilled={isFilled} isFocused={isFocused}>
-      {Icon && <Icon size="20" />}
-      <input
-        onFocus={() => setIsFocused(true)}
-        onBlur={handleBlur}
-        defaultValue={defaultValue}
-        ref={inputRef}
-        {...rest}
-      />
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle color="#c53030" size="20" />
-        </Error>
-      )}
-    </Container>
+    <InputContainer>
+      <label htmlFor={inputRef.current?.id}>{label}</label>
+      <Container
+        style={containerStyles}
+        isErrored={!!error}
+        isFilled={isFilled}
+        isFocused={isFocused}
+      >
+        {Icon && <Icon size="20" />}
+        <input
+          onFocus={() => setIsFocused(true)}
+          onBlur={handleBlur}
+          defaultValue={defaultValue}
+          ref={inputRef}
+          {...rest}
+        />
+        {error && (
+          <Error title={error}>
+            <FiAlertCircle color="#c53030" size="20" />
+          </Error>
+        )}
+      </Container>
+    </InputContainer>
   );
 }
 

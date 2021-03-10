@@ -68,14 +68,11 @@ export const AnimationContainer = styled.div`
     margin-bottom: 10px;
   }
 
-  p {
-    margin-top: 30px;
-    a {
-      color: #f01159;
-      transition: all 0.2s ease;
-      &:hover {
-        color: ${shade(0.15, '#f01159')};
-      }
+  a {
+    color: #f01159;
+    transition: all 0.2s ease;
+    &:hover {
+      color: ${shade(0.15, '#f01159')};
     }
   }
 `;

@@ -8,7 +8,6 @@ export const Container = styled.div`
   display: flex;
   align-items: stretch;
 `;
-
 export const Content = styled.div`
   display: flex;
 
@@ -39,27 +38,23 @@ const appearFromLeft = keyframes`
 
 export const AnimationContainer = styled.div`
   display: flex;
-  max-width: 450px;
+
   justify-content: center;
   align-content: center;
   flex-direction: column;
+
+  max-width: 450px;
 
   animation: ${appearFromLeft} 0.5s ease-in-out;
 
   form {
     margin: 30px 0;
-
     display: flex;
     flex-direction: column;
     text-align: center;
 
     h4 {
       color: #003458;
-    }
-
-    a {
-      text-align: left;
-      margin: 3px 0 30px 0;
     }
   }
 
@@ -68,14 +63,11 @@ export const AnimationContainer = styled.div`
     margin-bottom: 10px;
   }
 
-  p {
-    margin-top: 30px;
-    a {
-      color: #f01159;
-      transition: all 0.2s ease;
-      &:hover {
-        color: ${shade(0.15, '#f01159')};
-      }
+  a {
+    color: #f01159;
+    transition: all 0.2s ease;
+    &:hover {
+      color: ${shade(0.15, '#f01159')};
     }
   }
 `;

@@ -15,14 +15,16 @@ export const Content = styled.div`
 
   justify-content: center;
   align-content: center;
+  justify-items: center;
+  align-items: center;
   flex-direction: column;
 
   background-color: #f1f1f1;
 
   width: 100%;
-  max-width: 550px;
+  max-width: 750px;
 
-  padding: 5%;
+  padding: 0 5%;
 `;
 
 const appearFromLeft = keyframes`
@@ -38,9 +40,10 @@ const appearFromLeft = keyframes`
 
 export const AnimationContainer = styled.div`
   animation: ${appearFromLeft} 0.5s ease-in-out;
+  max-width: 450px;
 
   form {
-    margin: 30px 0;
+    margin: 20px 0;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -48,19 +51,23 @@ export const AnimationContainer = styled.div`
     h4 {
       color: #003458;
     }
+
+    p {
+      margin-top: 30px;
+
+      a {
+        color: #f01159;
+        transition: all 0.2s ease;
+        &:hover {
+          color: ${shade(0.15, '#f01159')};
+        }
+      }
+    }
   }
 
   h1 {
     color: #003458;
     margin-bottom: 10px;
-  }
-
-  a {
-    color: #f01159;
-    transition: all 0.2s ease;
-    &:hover {
-      color: ${shade(0.15, '#f01159')};
-    }
   }
 `;
 

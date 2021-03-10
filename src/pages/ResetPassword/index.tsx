@@ -1,56 +1,60 @@
 import React, { useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { FiUser, FiMail, FiLock, FiShield } from 'react-icons/fi';
+import { FiLock } from 'react-icons/fi';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
+import api from 'services/api';
 import { Container, Content, AnimationContainer, Background } from './styles';
 
-import api from '../../services/api';
 import { useToast } from '../../hooks/Toast';
 import getValidationErrors from '../../utils/getValidationErrors';
-
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-interface SignUpFormData {
-  name: string;
-  email: string;
+interface ResetPasswordFormData {
   password: string;
+  passwordConfirmation: string;
 }
 
-function SignUp(): JSX.Element {
+function ResetPassword(): JSX.Element {
   const formRef = useRef<FormHandles>(null);
+
   const { addToast } = useToast();
   const history = useHistory();
+  const location = useLocation();
 
   const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
+    async (data: ResetPasswordFormData) => {
       try {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .email('Digite um email válido')
-            .required('Email obrigatório'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+          password: Yup.string().required('Senha obrigatória'),
+          passwordConfirmation: Yup.string().oneOf(
+            [Yup.ref('password'), null],
+            'Senhas devem ser iguais  ',
+          ),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        const { password, passwordConfirmation } = data;
+        const token = location.search.replace('?token=', '');
 
-        history.push('/');
-
-        addToast({
-          type: 'success',
-          title: 'Conta criada com sucesso',
-          description: 'Você já pode fazer seu login na One!',
+        if (!token) {
+          throw new Error();
+        }
+        await api.post('/password/reset', {
+          password,
+          passwordConfirmation,
+          token,
         });
+
+        history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -61,14 +65,15 @@ function SignUp(): JSX.Element {
         }
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
+          title: 'Erro ao resetar senha',
           description:
-            'Ocorreu um erro ao realizar o seu cadastro, tente novamente.',
+            'Ocorreu um erro ao resetar sua senha, tente novamente mais tarde.',
         });
       }
     },
-    [history, addToast],
+    [addToast, history, location.search],
   );
+
   return (
     <>
       <Container>
@@ -82,32 +87,23 @@ function SignUp(): JSX.Element {
               sodales felis viverra quisque hac elementum sed tortor praesent.
             </p>
             <Form ref={formRef} onSubmit={handleSubmit}>
-              <h4>Faça seu cadastro</h4>
-              <Input
-                icon={FiUser}
-                name="name"
-                type="text"
-                placeholder="Nome completo"
-              />
-              <Input
-                icon={FiMail}
-                name="email"
-                type="email"
-                placeholder="Email"
-              />
-              <Input icon={FiShield} name="cpf" type="text" placeholder="CPF" />
+              <h4>Resetar senha</h4>
+
               <Input
                 icon={FiLock}
                 name="password"
                 type="password"
-                placeholder="Senha"
+                placeholder="Nova senha"
               />
 
-              <Button type="submit">Entrar</Button>
-              <p>
-                Já é um membro?
-                <Link to="/"> Faça seu login</Link>
-              </p>
+              <Input
+                icon={FiLock}
+                name="passwordConfirmation"
+                type="password"
+                placeholder="Confirmação da senha"
+              />
+
+              <Button type="submit">Alterar senha</Button>
             </Form>
           </AnimationContainer>
         </Content>
@@ -116,4 +112,4 @@ function SignUp(): JSX.Element {
   );
 }
 
-export default SignUp;
+export default ResetPassword;

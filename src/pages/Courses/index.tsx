@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  FiBookmark,
-  FiSettings,
-  FiSearch,
   FiShoppingCart,
   FiDollarSign,
   FiStar,
+  FiPlusCircle,
 } from 'react-icons/fi';
 
 import { Form } from '@unform/web';
@@ -13,18 +11,15 @@ import { useAuth } from 'hooks/AuthContext';
 import api from 'services/api';
 import { Link } from 'react-router-dom';
 import Menu from '../../components/Menu';
-import Input from '../../components/Input';
-import fakeprofileimage from '../../assets/profileimage.svg';
+import Button from '../../components/Button';
 
 import {
   Container,
   Content,
   ListOfCourses,
-  InfoUser,
-  SideBar,
   Course,
   Teacher,
-  Head,
+  Options,
 } from './styles';
 
 interface Course {
@@ -39,13 +34,14 @@ interface Course {
   principalImageUrl: string;
 }
 
-function Dashboard(): JSX.Element {
+function Courses(): JSX.Element {
   const { user } = useAuth();
 
   const [courses, setCourses] = useState<Course[]>([]);
+  const [countCourses, setCountCourses] = useState(0);
 
   const handleSubmit = useCallback(() => {
-    console.log('Submitted');
+    console.log('submited');
   }, []);
 
   useEffect(() => {
@@ -57,14 +53,20 @@ function Dashboard(): JSX.Element {
   return (
     <Container>
       <Menu />
-
       <Content>
-        <Head>
+        <Options>
           <h2>
-            Olá,
-            <strong>{user.name}</strong>
+            Você tem&nbsp;
+            <strong>
+              {courses.length}
+              &nbsp;curso cadastrado
+            </strong>
           </h2>
-        </Head>
+
+          <Link to="/createcourse">
+            <FiPlusCircle />
+          </Link>
+        </Options>
         <ListOfCourses>
           {courses.map(course => (
             <Course key={course.id} background={course.principalImageUrl}>
@@ -91,34 +93,8 @@ function Dashboard(): JSX.Element {
           ))}
         </ListOfCourses>
       </Content>
-      <SideBar>
-        <InfoUser>
-          <div className="userTools">
-            <button type="button">
-              <FiBookmark size="20" />
-            </button>
-
-            {user.avatarUrl ? (
-              <img src={user.avatarUrl} alt={user.name} />
-            ) : (
-              <img src={fakeprofileimage} alt="Profile" />
-            )}
-
-            <Link to="/profile">
-              <FiSettings size="20" />
-            </Link>
-          </div>
-          <div className="userMoney">
-            <h3>R$00,00</h3>
-            <p>saldo</p>
-          </div>
-        </InfoUser>
-        <Form onSubmit={handleSubmit}>
-          <Input placeholder="Comprar um produto" name="buy" icon={FiSearch} />
-        </Form>
-      </SideBar>
     </Container>
   );
 }
 
-export default Dashboard;
+export default Courses;

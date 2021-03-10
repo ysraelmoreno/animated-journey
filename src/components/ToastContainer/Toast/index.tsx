@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import {
-  FiAlertCircle,
-  FiXCircle,
-  FiCheckCircle,
-  FiInfo,
-} from 'react-icons/fi';
+import { FiXCircle } from 'react-icons/fi';
 
 import { ToastMessage, useToast } from '../../../hooks/Toast';
 import { Container } from './styles';
+
+import Emoji from '../../Emoji';
 
 interface ToastProps {
   message: ToastMessage;
@@ -15,12 +12,12 @@ interface ToastProps {
 }
 
 const icons = {
-  info: <FiInfo size={24} />,
-  error: <FiAlertCircle size={24} />,
-  success: <FiCheckCircle size={24} />,
+  info: <Emoji label="info" symbol="🧐" />,
+  error: <Emoji label="error" symbol="😢" />,
+  success: <Emoji label="sucess" symbol="🥳" />,
 };
 
-function Toast({ message, style }: ToastProps) {
+function Toast({ message, style }: ToastProps): JSX.Element {
   const { removeToast } = useToast();
 
   useEffect(() => {
