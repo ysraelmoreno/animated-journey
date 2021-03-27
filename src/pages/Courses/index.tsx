@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FiShoppingCart,
   FiDollarSign,
@@ -6,12 +6,10 @@ import {
   FiPlusCircle,
 } from 'react-icons/fi';
 
-import { Form } from '@unform/web';
-import { useAuth } from 'hooks/AuthContext';
 import api from 'services/api';
 import { Link } from 'react-router-dom';
 import Menu from '../../components/Menu';
-import Button from '../../components/Button';
+import Emoji from '../../components/Emoji';
 
 import {
   Container,
@@ -20,6 +18,7 @@ import {
   Course,
   Teacher,
   Options,
+  AddCourseDiv,
 } from './styles';
 
 interface Course {
@@ -35,14 +34,7 @@ interface Course {
 }
 
 function Courses(): JSX.Element {
-  const { user } = useAuth();
-
   const [courses, setCourses] = useState<Course[]>([]);
-  const [countCourses, setCountCourses] = useState(0);
-
-  const handleSubmit = useCallback(() => {
-    console.log('submited');
-  }, []);
 
   useEffect(() => {
     api.get(`/courses/mycourses`).then(response => {
@@ -59,7 +51,8 @@ function Courses(): JSX.Element {
             Você tem&nbsp;
             <strong>
               {courses.length}
-              &nbsp;curso cadastrado
+              &nbsp;
+              {courses.length === 1 ? 'curso cadastrado' : 'cursos cadastrados'}
             </strong>
           </h2>
 
@@ -68,29 +61,44 @@ function Courses(): JSX.Element {
           </Link>
         </Options>
         <ListOfCourses>
-          {courses.map(course => (
-            <Course key={course.id} background={course.principalImageUrl}>
-              <div>
-                <h2>{course.name}</h2>
-                <p>
-                  <FiShoppingCart />
-                  135 vendas
-                </p>
-                <p>
-                  <FiDollarSign />
-                  R$1335,23
-                </p>
-                <p>
-                  <FiStar />
-                  4,8
-                </p>
-              </div>
-              <Teacher>
-                <img src={course.teacher.avatarUrl} alt={course.teacher.name} />
-                <p>{course.teacher.name}</p>
-              </Teacher>
-            </Course>
-          ))}
+          {courses.length !== 0 ? (
+            courses.map(course => (
+              <Course key={course.id} background={course.principalImageUrl}>
+                <Link to={`/course/${course.id}`}>
+                  <div>
+                    <h2>{course.name}</h2>
+                    <p>
+                      <FiShoppingCart />
+                      135 vendas
+                    </p>
+                    <p>
+                      <FiDollarSign />
+                      R$1335,23
+                    </p>
+                    <p>
+                      <FiStar />
+                      4,8
+                    </p>
+                  </div>
+                  <Teacher>
+                    <img
+                      src={course.teacher.avatarUrl}
+                      alt={course.teacher.name}
+                    />
+                    <p>{course.teacher.name}</p>
+                  </Teacher>
+                </Link>
+              </Course>
+            ))
+          ) : (
+            <Link to="/createcourse">
+              <AddCourseDiv>
+                <Emoji label="😰" symbol="😰" />
+                <h1>Parece que você não tem nenhum curso cadastrado</h1>
+                <p>Crie seu curso agora clicando aqui</p>
+              </AddCourseDiv>
+            </Link>
+          )}
         </ListOfCourses>
       </Content>
     </Container>

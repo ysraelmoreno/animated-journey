@@ -42,6 +42,7 @@
       "no-use-before-define": "off",
       "jsx-a11y/label-has-associated-control": "off",
       "jsx-a11y/anchor-is-valid": "off",
+      "array-callback-return": "off",
       "import/extensions": [
         "error",
         "ignorePackages",

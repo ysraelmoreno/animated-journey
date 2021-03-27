@@ -5,6 +5,42 @@ interface BackgroundProps {
   background: string;
 }
 
+export const AddCourseDiv = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  background-color: #e2e2e2;
+  transition: all 0.2s ease;
+  border: 3px dashed #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: ${shade(0.1, '#e2e2e2')};
+
+    border: 3px dashed ${shade(0.1, '#ccc')};
+  }
+
+  button {
+    width: 30%;
+  }
+
+  span {
+    font-size: 50px;
+  }
+
+  h1 {
+    font-size: 17px;
+    text-align: center;
+    color: #4f4f4f;
+    margin: 20px 0;
+  }
+`;
+
 export const Container = styled.div`
   display: flex;
   align-content: center;
@@ -118,8 +154,8 @@ export const Course = styled.div<BackgroundProps>`
   border-radius: 5px;
   background-image: linear-gradient(
       to left,
-      rgba(0, 52, 88, 0.9),
-      rgba(240, 17, 89, 1)
+      rgba(0, 52, 88, 0.5),
+      rgba(240, 17, 89, 0.5)
     ),
     url(${props => props.background});
 
@@ -127,6 +163,13 @@ export const Course = styled.div<BackgroundProps>`
   background-position: center;
 
   padding: 30px;
+
+  a {
+    display: flex;
+    text-decoration: none;
+    width: 100%;
+    justify-content: space-between;
+  }
 
   & + div {
     margin-top: 20px;

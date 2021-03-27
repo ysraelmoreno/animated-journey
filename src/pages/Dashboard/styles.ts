@@ -1,17 +1,64 @@
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 interface BackgroundProps {
   background: string;
 }
 
+export const AddCourseDiv = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  background-color: #e2e2e2;
+  transition: all 0.2s ease;
+  border: 3px dashed #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: ${shade(0.075, '#e2e2e2')};
+
+    border: 3px dashed ${shade(0.1, '#ccc')};
+  }
+
+  button {
+    width: 30%;
+  }
+
+  span {
+    font-size: 50px;
+  }
+
+  h1 {
+    font-size: 17px;
+    text-align: center;
+    color: #4f4f4f;
+    margin: 20px 0;
+  }
+`;
+
 export const Head = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
+
+  a {
+    text-decoration: none;
+  }
+
   h2 {
     color: #003458;
 
     strong {
       color: #f01159;
+
+      transition: all 0.2s ease;
+      &:hover {
+        color: ${shade(0.3, '#f01159')};
+      }
     }
   }
 `;
@@ -36,7 +83,6 @@ export const ListOfCourses = styled.div`
   width: 100%;
   max-width: 790px;
   min-width: 350px;
-  margin-right: 20px;
 `;
 
 export const InfoUser = styled.aside`
@@ -115,13 +161,17 @@ export const InfoUser = styled.aside`
 `;
 
 export const Course = styled.div<BackgroundProps>`
-  display: flex;
-  justify-content: space-between;
+  a {
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
   border-radius: 5px;
   background-image: linear-gradient(
       to left,
-      rgba(0, 52, 88, 0.9),
-      rgba(240, 17, 89, 1)
+      rgba(0, 52, 88, 0.5),
+      rgba(240, 17, 89, 0.5)
     ),
     url(${props => props.background});
 

@@ -15,9 +15,10 @@ export const Container = styled.div<ContainerProps>`
   padding: 15px 10px;
   width: 100%;
 
-  border: 1px solid #909090;
+  border: 1px solid #003458;
   border-radius: 5px;
   color: #003458;
+  border: 1px solid #909090;
 
   margin: 10px 0;
 
@@ -36,7 +37,6 @@ export const Container = styled.div<ContainerProps>`
     props.isFocused &&
     css`
       border: 1px solid #003458;
-
       svg {
         color: #003458;
       }
@@ -46,7 +46,6 @@ export const Container = styled.div<ContainerProps>`
     props.isFilled &&
     css`
       border: 1px solid #003458;
-
       svg {
         color: #003458;
       }
@@ -54,7 +53,7 @@ export const Container = styled.div<ContainerProps>`
 
 
 
-  input {
+  textarea {
     border: none;
     width: 100%;
     background-color: transparent;

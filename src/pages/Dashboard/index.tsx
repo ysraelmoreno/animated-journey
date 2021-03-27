@@ -12,8 +12,10 @@ import { Form } from '@unform/web';
 import { useAuth } from 'hooks/AuthContext';
 import api from 'services/api';
 import { Link } from 'react-router-dom';
+import Emoji from 'components/Emoji';
 import Menu from '../../components/Menu';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import fakeprofileimage from '../../assets/profileimage.svg';
 
 import {
@@ -25,6 +27,7 @@ import {
   Course,
   Teacher,
   Head,
+  AddCourseDiv,
 } from './styles';
 
 interface Course {
@@ -62,33 +65,53 @@ function Dashboard(): JSX.Element {
         <Head>
           <h2>
             Olá,
-            <strong>{user.name}</strong>
+            <Link to="/profile">
+              <strong>
+                &nbsp;
+                {user.name}
+              </strong>
+            </Link>
           </h2>
         </Head>
         <ListOfCourses>
-          {courses.map(course => (
-            <Course key={course.id} background={course.principalImageUrl}>
-              <div>
-                <h2>{course.name}</h2>
-                <p>
-                  <FiShoppingCart />
-                  135 vendas
-                </p>
-                <p>
-                  <FiDollarSign />
-                  R$1335,23
-                </p>
-                <p>
-                  <FiStar />
-                  4,8
-                </p>
-              </div>
-              <Teacher>
-                <img src={course.teacher.avatarUrl} alt={course.teacher.name} />
-                <p>{course.teacher.name}</p>
-              </Teacher>
-            </Course>
-          ))}
+          {courses.length !== 0 ? (
+            courses.map(course => (
+              <Course key={course.id} background={course.principalImageUrl}>
+                <Link to={`/course/${course.id}`}>
+                  <div>
+                    <h2>{course.name}</h2>
+                    <p>
+                      <FiShoppingCart />
+                      135 vendas
+                    </p>
+                    <p>
+                      <FiDollarSign />
+                      R$1335,23
+                    </p>
+                    <p>
+                      <FiStar />
+                      4,8
+                    </p>
+                  </div>
+                  <Teacher>
+                    <img
+                      src={course.teacher.avatarUrl}
+                      alt={course.teacher.name}
+                    />
+                    <p>{course.teacher.name}</p>
+                  </Teacher>
+                </Link>
+              </Course>
+            ))
+          ) : (
+            <Link to="/createcourse">
+              <AddCourseDiv>
+                <Emoji label="😰" symbol="😰" />
+                <h1>Parece que você não tem nenhum curso cadastrado</h1>
+                <p>Crie seu curso agora clicando aqui</p>
+              </AddCourseDiv>
+            </Link>
+          )}
         </ListOfCourses>
       </Content>
       <SideBar>

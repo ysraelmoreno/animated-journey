@@ -4,6 +4,7 @@ export const Container = styled.li`
   display: flex;
   margin-left: 30px;
   font-size: 15px;
+  font-weight: 600;
   position: relative;
   a {
     color: white;

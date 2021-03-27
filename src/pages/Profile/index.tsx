@@ -122,7 +122,6 @@ function Profile(): JSX.Element {
         const data = new FormData();
 
         data.append('avatar', e.target.files[0]);
-
         const response = await api.patch('/users/avatar', data);
 
         updateUser(response.data);
@@ -251,6 +250,7 @@ function Profile(): JSX.Element {
                   id="cpf"
                   name="cpf"
                   disabled
+                  value={userProfile?.cpf}
                   defaultValue={userProfile?.cpf}
                 />
               </div>

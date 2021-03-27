@@ -1,13 +1,17 @@
-import styled, { css } from 'styled-components';
 import { shade } from 'polished';
+import styled from 'styled-components';
 
-interface HeaderProps {
-  isActive: boolean;
+interface IHeaderProps {
+  background: string;
 }
 
 export const Container = styled.div`
   display: flex;
+  max-width: 1120px;
+  width: 100%;
   justify-content: center;
+
+  margin: 0 auto;
 `;
 
 export const Content = styled.main`
@@ -27,40 +31,27 @@ export const Content = styled.main`
   }
 `;
 
-export const Header = styled.div<HeaderProps>`
+export const Header = styled.div<IHeaderProps>`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
   max-width: 1120px;
   height: 200px;
   width: 100%;
 
-  color: #4f4f4f;
+  color: white;
 
   padding: 30px 35px;
   border-radius: 10px;
   margin-bottom: 45px;
-  background-color: #f3f3f3;
-  border: 3px dashed #ccc;
-  transition: all 0.2s ease;
-  font-weight: 700;
-
-  &:hover {
-    background-color: ${shade(0.075, '#f3f3f3')};
-  }
-
-  ${props =>
-    props.isActive &&
-    css`
-      border: 3px dashed ${shade(0.1, '#c0ffca')};
-
-      background-color: #c0ffca;
-
-      &:hover {
-        background-color: ${shade(0.075, '#c0ffca')};
-      }
-    `}
+  background-image: linear-gradient(
+      to left,
+      rgba(0, 52, 88, 0.5),
+      rgba(240, 17, 89, 0.5)
+    ),
+    url(${props => props.background});
+  background-size: cover;
+  background-position: center;
   label {
     display: flex;
     align-items: center;
@@ -101,20 +92,31 @@ export const Header = styled.div<HeaderProps>`
 
 export const DoubleInput = styled.div`
   display: flex;
+  justify-content: flex-end;
   margin-bottom: 20px;
   div {
     width: 100%;
 
+    button {
+      background-color: transparent;
+      color: red;
+      width: 40%;
+      height: inherit;
+      &:hover {
+        background-color: transparent;
+        color: ${shade(0.1, '#FF0000')};
+      }
+
+      svg {
+        margin-right: 10px;
+      }
+    }
+
     & + div {
+      display: flex;
+      justify-content: flex-end;
       margin-left: 30px;
     }
-  }
-`;
-
-export const TitleSection = styled.div`
-  margin: 10px 0;
-  span {
-    color: #a5a5a5;
   }
 `;
 
